@@ -1,0 +1,605 @@
+<?php
+
+$produk = [
+    [
+        "nama" => "Monitor 24 Inch",
+        "kategori" => "Monitor",
+        "harga" => 1800000,
+        "stok" => 4
+    ],
+    [
+        "nama" => "Laptop Productivity",
+        "kategori" => "Laptop",
+        "harga" => 2750000,
+        "stok" => 3
+    ],
+    [
+        "nama" => "Mechanical Keyboard",
+        "kategori" => "Keyboard",
+        "harga" => 850000,
+        "stok" => 7
+    ],
+    [
+        "nama" => "Wireless Mouse",
+        "kategori" => "Mouse",
+        "harga" => 650000,
+        "stok" => 10
+    ],
+    [
+        "nama" => "Headset Gaming",
+        "kategori" => "Audio",
+        "harga" => 1200000,
+        "stok" => 5
+    ],
+    [
+        "nama" => "Webcam Full HD",
+        "kategori" => "Webcam",
+        "harga" => 950000,
+        "stok" => 0
+    ]
+];
+
+
+function formatRupiah($harga)
+{
+    return "Rp" . number_format($harga, 0, ',', '.');
+}
+
+
+
+$jumlahProduk = count($produk);
+
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cia Store - Katalog Produk</title>
+
+    <style>
+
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f7fb;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+
+        
+        .navbar {
+            background-color: #111827;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-menu a:hover {
+            color: #93c5fd;
+        }
+
+
+       
+        .hero {
+            width: 86%;
+            margin: 35px auto;
+            background-color: #111827;
+            color: white;
+            padding: 45px;
+            border-radius: 14px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #d1d5db;
+            max-width: 600px;
+            margin-bottom: 25px;
+        }
+
+        .hero-button {
+            display: inline-block;
+            background-color: white;
+            color: #111827;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+
+        
+        .product-info {
+            width: 86%;
+            margin: 0 auto 25px;
+        }
+
+        .product-info h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .product-info p {
+            color: #6b7280;
+        }
+
+
+     
+        .product-container {
+            width: 86%;
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+
+       
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 22px;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.07);
+
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+
+        .category {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .card h3 {
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+
+       
+        .harga-normal {
+            font-size: 15px;
+            color: #6b7280;
+            text-decoration: line-through;
+            margin-bottom: 3px;
+        }
+
+        .diskon {
+            display: inline-block;
+            background-color: #fee2e2;
+            color: #dc2626;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .harga-akhir {
+            font-size: 21px;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .harga-biasa {
+            font-size: 21px;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+
+      
+        .stock {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 17px;
+            font-size: 14px;
+        }
+
+        .status-tersedia {
+            background-color: #dcfce7;
+            color: #15803d;
+
+            padding: 4px 9px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-habis {
+            background-color: #fee2e2;
+            color: #dc2626;
+
+            padding: 4px 9px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+     
+        .buy-button {
+            display: block;
+            width: 100%;
+
+            border: none;
+
+            background-color: #111827;
+            color: white;
+
+            padding: 11px;
+
+            border-radius: 7px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .buy-button:hover {
+            background-color: #374151;
+        }
+
+        .buy-button:disabled {
+            background-color: #d1d5db;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+
+       
+        footer {
+            margin-top: 60px;
+            background-color: #111827;
+            color: #d1d5db;
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+        }
+
+
+        
+        @media (max-width: 900px) {
+
+            .product-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-menu {
+                gap: 15px;
+            }
+
+            .hero {
+                padding: 30px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .product-container {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    
+    <header class="navbar">
+
+        <div class="logo">
+            Cia Store
+        </div>
+
+        <ul class="nav-menu">
+
+            <li>
+                <a href="#">Home</a>
+            </li>
+
+            <li>
+                <a href="#produk">Produk</a>
+            </li>
+
+            <li>
+                <a href="#tentang">Tentang</a>
+            </li>
+
+        </ul>
+
+    </header>
+
+
+
+    
+    <section class="hero">
+
+        <h1>
+            Simple Tech Store.
+        </h1>
+
+        <p>
+            Temukan berbagai perangkat dan aksesori teknologi
+            untuk mendukung kebutuhan belajar, bekerja,
+            dan aktivitas sehari-hari.
+        </p>
+
+        <a href="#produk" class="hero-button">
+            Lihat Produk
+        </a>
+
+    </section>
+
+
+
+    
+    <section class="product-info" id="produk">
+
+        <h2>
+            Katalog Produk
+        </h2>
+
+        <p>
+            Menampilkan
+            <strong>
+                <?php echo $jumlahProduk; ?>
+            </strong>
+            produk tersedia di Cia Store.
+        </p>
+
+    </section>
+
+
+
+    
+    <section class="product-container">
+
+
+        <?php foreach ($produk as $item): ?>
+
+
+           
+            <div class="card">
+
+
+                <!-- KATEGORI -->
+
+                <div class="category">
+
+                    <?php echo $item["kategori"]; ?>
+
+                </div>
+
+
+                <!-- NAMA PRODUK -->
+
+                <h3>
+
+                    <?php echo $item["nama"]; ?>
+
+                </h3>
+
+
+
+                
+                <?php if ($item["harga"] >= 1000000): ?>
+
+
+                    <?php
+
+                    // Diskon 10%
+                    $persentaseDiskon = 10;
+
+                    // Menghitung jumlah potongan harga
+                    $potongan =
+                        $item["harga"] *
+                        $persentaseDiskon /
+                        100;
+
+                    // Menghitung harga setelah diskon
+                    $hargaSetelahDiskon =
+                        $item["harga"] -
+                        $potongan;
+
+                    ?>
+
+
+                    <div class="harga-normal">
+
+                        <?php
+                        echo formatRupiah($item["harga"]);
+                        ?>
+
+                    </div>
+
+
+                    <div class="diskon">
+
+                        Diskon
+                        <?php echo $persentaseDiskon; ?>%
+
+                    </div>
+
+
+                    <div class="harga-akhir">
+
+                        <?php
+                        echo formatRupiah($hargaSetelahDiskon);
+                        ?>
+
+                    </div>
+
+
+                <?php else: ?>
+
+
+                    <!-- PRODUK DI BAWAH 1 JUTA
+                         TIDAK MENDAPATKAN DISKON -->
+
+                    <div class="harga-biasa">
+
+                        <?php
+                        echo formatRupiah($item["harga"]);
+                        ?>
+
+                    </div>
+
+
+                <?php endif; ?>
+
+
+
+               
+                <div class="stock">
+
+
+                    <span>
+
+                        Stok:
+                        <?php echo $item["stok"]; ?>
+
+                    </span>
+
+
+                    <?php if ($item["stok"] > 0): ?>
+
+                        <span class="status-tersedia">
+                            Tersedia
+                        </span>
+
+                    <?php else: ?>
+
+                        <span class="status-habis">
+                            Stok Habis
+                        </span>
+
+                    <?php endif; ?>
+
+
+                </div>
+
+
+
+               
+                <?php if ($item["stok"] > 0): ?>
+
+                    <a
+                        href="#"
+                        class="buy-button"
+                    >
+                        Beli Sekarang
+                    </a>
+
+                <?php else: ?>
+
+                    <button
+                        class="buy-button"
+                        disabled
+                    >
+                        Beli Sekarang
+                    </button>
+
+                <?php endif; ?>
+
+
+            </div>
+
+
+        <?php endforeach; ?>
+
+
+    </section>
+
+
+
+    
+    <footer id="tentang">
+
+        <p>
+            &copy; <?php echo date("Y"); ?>
+            Cia Store. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>
